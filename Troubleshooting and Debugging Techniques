@@ -905,3 +905,10 @@ When facing a problem with a service, which of the following examples can remedi
 xAsk someone who has solved the issue before for help. /Someone who has solved the issue before can apply the short-term remediation right away, and long-term solutions can be discussed later.  
  Grab a cup of coffee. /Not quite. Walking away for a bit may produce other ideas to solve the problem for the short-term, but thinking on your own may still take some time. 
  
+PROACTIVE PRACTICE
+Which proactive practice can you implement to make troubleshooting issues in a program easier when problems arise?  
+ Use a test environment.  
+ Build infrastructure for rollbacks.  
+ Set up integration tests  
+ Include debug logging in code. /Great work!. Including debug logging in code can make troubleshooting easier because logs can help pinpoint the actual issue, and speed up remediation.   
+
