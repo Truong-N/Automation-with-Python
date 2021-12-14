@@ -912,3 +912,48 @@ Which proactive practice can you implement to make troubleshooting issues in a p
  Set up integration tests  
  Include debug logging in code. /Great work!. Including debug logging in code can make troubleshooting easier because logs can help pinpoint the actual issue, and speed up remediation.   
 
+PLANNING FUTURE RESOURCE USAGE
+You have a small rack of servers and other components that make up a virtual infrastructure. This rack hosts virtual machines that provide web services, and user file shares to employees in the local office, and immediate regional branches. Which component in the rack can be most easily planned for future growth?  
+	CPU Capacity  
+	RAM Capacity  
+	NAS capacity /Nice job! Network Attached Storage (NAS) products from vendors like NetApp can provide additional shelves to add more storage as the website’s content, and users’ data increases in size.   
+	Network bandwidth  /Not quite. An engineer must consider changes in cables, ports, switches, routers, and ISP services; none of which are easy to plan for.  
+
+PREVENTING FURTURE PROBLEMS
+Which of the following is the most effective way to prevent an issue in a program that you own from happening again?  
+ 	Report a bug /Not quite. Bug reports are sent to external developers, not to yourself. 
+X 	Write a test /When updating code to fix an issue, create a new test to ensure the change performs the intended actions.  
+	Monitor resources  
+	Reproduction case
+
+Practice Quiz: Making Our Future Lives Easier
+
+1. Which proactive practice can you implement to make troubleshooting issues in a program easier when they happen again, or face other similar issues?
+ Create and update documentation
+ Use a test environment.
+ Automate rollbacks./Not quite. Rollbacks are beneficial, for example, when an upgrade fails on a few computers, and they need to be reverted back to their previous state.
+ Set up Unit tests./Not quite. Unit tests are beneficial when developing, or updating code.
+
+2. Which of the following is a good example of mixing and matching resources on a single server so that the running services make the best possible use of all resources?
+ Run two applications that are CPU intensive between two servers.
+ Run a CPU intensive application on one server, and an I/O intensive application on another server.
+XRun a RAM intensive application and a CPU intensive application on a server./An application that uses a lot of RAM can still run while CPU is mostly used by another application on the same server.
+ Run two applications that are RAM and I/O intensive on a server./Not quite. Two applications are maxing out the same resources on a single server.
+
+3. One strategy for debugging involves explaining the problem to yourself out loud. What is this technique known as?
+ Monitoring
+XRubber Ducking /Rubber ducking is the process of explaining a problem to a "rubber duck", or rather yourself, to better understand the problem.
+ Testing
+ Ticketing
+
+4. When deploying software, what is a canary? 
+ A test for how components of a program interact with each other/Not quite. When we test how components interact with each other, we are doing integration testing.
+ A test of a program’s components/Not quite. A unit test is a test of separate portions of code, tested independently.
+ A test deployment to a subset of production hosts
+ A small section of code
+
+5. It is advisable to collect monitoring information into a central location. Given the importance of the server handling the centralized collecting, when assessing risks from outages, this server could be described as what?
+XA failure domain/Awesome! A failure domain is a logical or physical component of a system that might fail.
+ A problem domain/Not quite. The problem domain is a description of the problem itself.
+ CPU intensive
+ I/O intensive  
