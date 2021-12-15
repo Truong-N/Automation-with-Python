@@ -957,3 +957,91 @@ XA failure domain/Awesome! A failure domain is a logical or physical component o
  A problem domain/Not quite. The problem domain is a description of the problem itself.
  CPU intensive
  I/O intensive  
+
+final exam
+import datetime
+import csv
+import requests
+
+FILE_URL = "https://storage.googleapis.com/gwg-content/gic215/employees-with-date.csv"
+
+def get_start_date():
+    """Interactively get the start date to query for."""
+
+    print()
+    print('Getting the first start date to query for.')
+    print()
+    print('The date must be greater than Jan 1st, 2018')
+    year = int(input("Enter a value for the year: "))
+    month = int(input('Enter a value for the month: '))
+    day = int(input('Enter a value for the day: '))
+    print()
+    return datetime.datetime(year, month, day)
+
+def take4(elem):
+    return elem[3]
+
+def get_file_lines(url):
+    """Returns the lines contained in the file at the given URL"""    
+
+    # Download the file over the internet
+    response = requests.get(url, stream=True)
+    lines = []
+
+    for line in response.iter_lines():
+        lines.append(line.decode("UTF-8"))
+    row = []
+    reader = csv.reader(lines[1:])
+    for r in reader:
+        row.append(r)
+    row.sort(key=take4)
+    print(row)
+    return row
+
+
+def get_same_or_newer(start_date, reader):
+    """Returns the employees that started on the given date, or the closet one"""
+   
+    min_date = datetime.datetime.today()
+    min_date_employees = []
+    for row in reader:
+        row_date = datetime.datetime.strptime(row[3], '%Y-%m-%d')
+
+        # If this date is smaller than the one we're looking for,
+        # we skip this row
+        if row_date < start_date:
+            continue
+        # if this date is smaller than the current minimum,
+        # we pick it as the new minimum, resetting the list of 
+        # employees at the minimal date.
+        if row_date < min_date:
+            min_date = row_date
+            min_date_employees = []
+
+        # if this date is the same as the current minimum,
+        # we add the employee in this row to the list of
+        # employees at the minimal date.
+        if row_date == min_date:
+            min_date_employees.append("{} {}".format(row[0], row[1]))
+
+    return min_date, min_date_employees
+
+def list_newer(start_date):
+    date = get_file_lines(FILE_URL)
+    while start_date < datetime.datetime.today():
+        start_date, employees = get_same_or_newer(start_date,date)
+        print("started on {}: {}".format(start_date.strftime("%b %d, %Y"), employees))
+        
+        # now move the date to the next one
+        start_date = start_date + datetime.timedelta(days=1)
+
+def main():
+    start_date = get_start_date()
+    list_newer(start_date)
+
+if __name__ == "__main__":
+    import time
+    start = time.perf_counter()
+    main()
+    stop = time.perf_counter()
+    print("duration: ", round(stop-start,2))
