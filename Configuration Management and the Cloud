@@ -25,3 +25,170 @@ xCFEngine
  Hire more network techs
  Ask for a reduction in planned nodes to simplify configuration
 xPrepare scripts or download software for automated configuration
+
+class sudo {
+	package { 'sudo':
+		ensure => present,
+	}
+}
+
+class sysctl {
+	# Make sure the directory exists, some distros don't have it
+	file { '/etc/sysctl.d':
+		ensure => directory, 
+	}
+}
+
+class timezone {
+	file { '/etc/timezone':
+		ensure => file,
+		content => "UTC\n",
+		replace => true,
+	}
+}
+
+Question
+What is the most basic unit for modeling in Puppet?
+ package/Not quite. A package is a type of resource. Resources are the most basic unit for modeling in Puppet.
+ title
+xresource/ The most basic unit in Puppet is a resource, such as user, group, file, service or package.
+ file/ Not quite. File is a type of resource. A resource is the most basic unit in Puppet.
+
+class ntp {
+	package { 'ntp':
+		ensure => latest,
+	}
+	file { '/etc/ntp.conf':
+		source => 'puppet:///modules/ntp/ntp.conf'
+		replace => true,
+	}
+	service { 'ntp':
+		enable => true,
+		ensure => running,
+	}
+}
+
+Question
+What is the advantage of grouping related resources into a single class?
+X To ensure efficiency and convenience for future changes
+ It is required by Puppet
+ To keep computer clocks synchronized
+ To prevent errors
+
+Puppet Resources
+Check out the following links for more information:
+https://puppet.com/docs/puppet/latest/lang_resources.html
+https://puppet.com/blog/deploy-packages-across-your-windows-estate-with-bolt-and-chocolatey/
+
+Practice Quiz: Introduction to Puppet
+
+1. A Puppet agent inspects /etc/conf.d, determines the OS to be Gentoo Linux, then activates the Portage package manager. What is the provider in this scenario?  
+ /etc/conf.d  
+XPortage  
+ Gentoo Linux  
+ The Puppet agent  
+
+
+2.
+Question 2
+Which of the following examples show proper Puppet syntax?  
+class AutoConfig {
+  package { 'Executable':
+    ensure => latest,
+  }
+  file { 'executable.cfg':
+    source => 'puppet:///modules/executable/Autoconfig/executable.cfg'
+    replace => true,
+  }
+  service { 'executable.exe':
+    enable  => true,
+    ensure  => running,
+  }
+}
+
+3. What is the benefit of grouping resources into classes when using Puppet?
+ Providers can be specified/Not quite. The provider is already identified by Puppet, automatically.
+XConfiguration management is simplified
+ The title is changeable
+ Packages are not required
+
+
+4. What defines which provider will be used for a particular resource?
+XPuppet assigns providers based on the resource type and data collected from the system.
+ A menu allows you to choose providers on a case-by-case basis.
+ The user is required to define providers in a config file./Not quite. Although the user can use classes to reference different providers, Puppet is able to automatically recognize most resource types and assign a provider.
+ Puppet uses an internet database to decide which provider to use.
+
+
+5. In Puppet’s file resource type, which attribute overwrites content that already exists?
+ Purge
+ Overwrite
+XReplace
+ Save
+
+if $facts['is_virtual']{
+	package { 'smartmontools':
+		ensure => purged,
+	}
+} else {
+	package { 'smartmontools':
+		ensure => installed,
+	}
+}
+
+Question
+What is a fact in Puppet?
+xA variable representing characteristics of a system /A fact is a hash that stores information about the details of a particular system.
+ A type of parameter
+ A type of resource
+ A variable representing packages
+
+file { '/etc/issue':
+	mode => '0644',
+	content => "Internal system \l \n", 
+}
+exec { 'move example file':
+	command => 'mv /home/user/example.txt /home/user/Desktop',
+	onlyif => 'test -e /home/user/example.txt',
+}
+
+Question
+What does idempotent mean?
+ There is no state being kept between runs of the agent
+ We declare the state we want to achieve before running
+ An action is performed a new way each time
+xAn action can be performed repeatedly without changing the system after the first run
+
+More Information About Configuration Management
+Check out the following links for more information:
+
+https://en.wikipedia.org/wiki/Domain-specific_language
+
+http://radar.oreilly.com/2015/04/the-puppet-design-philosophy.html
+
+Practice Quiz: The Building Blocks of Configuration Management
+1. How is a declarative language different from a procedural language?
+xA declarative language defines the goal; a procedural language defines the steps to achieve a goal.
+ Declarative languages are object-based; procedural languages aren’t.
+ Declarative languages aren’t stateless; procedural languages are stateless.
+ A declarative language defines each step required to reach the goal state.
+2. Puppet facts are stored in hashes. If we wanted to use a conditional statement to perform a specific action based on a fact value, what symbol must precede the facts variable for the Puppet DSL to recognize it?
+ @
+ #
+x$
+ &
+3. What does it mean that Puppet is stateless?
+ Puppet retains information between uses.
+ An action can be performed repeatedly without changing the system after the first run.
+xThere is no state being kept between runs of the agent.
+ Actions are taken only when they are necessary to achieve a goal.
+4. What does the "test and repair" paradigm mean in practice?
+ There is no state being kept between runs of the agent.
+ We should plan to repeatedly fix issues.
+ We need to test before and after implementing a fix.
+xWe should only take actions when testing determines they need to be done to reach the requested state
+5. Where, in Puppet syntax, are the attributes of a resource found?
+xInside the curly braces after the resource type
+ In brackets after the if statement
+ After ensure => 
+ After the dollar sign ($)
